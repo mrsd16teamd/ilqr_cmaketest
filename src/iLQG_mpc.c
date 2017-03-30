@@ -1,21 +1,6 @@
 // MATLAB Mex function wrapper for iLQG algorithm
 // Copyright (c) 2016 Jens Geisler
-
-
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-
-#include "iLQG.h"
-#include "printMat.h"
-#include "matMult.h"
-
-struct trajectory {
-    double* x;  // states
-    double* u;  // controls
-};
+#include "iLQG_mpc.h"
 
 double* assignPtrVal(double* values, int numVal) {
     double* temp = malloc(numVal*sizeof(double));
@@ -122,7 +107,7 @@ void plan_trajectory(double* x0, double* xDes, double* Obs, int T, struct trajec
     N= T+1; // T+1 TODO how to make this variable?
     double u0[m*(N-1)]; // TODO row-first
     srand(time(NULL));
-    for(int i=0; i<N-1; i++) {
+    for(i=0; i<N-1; i++) {
         u0[i*m] = ((double)rand()/(double)(RAND_MAX)) * 0.5 + 3;
         u0[i*m+1] = ((double)rand()/(double)(RAND_MAX)) * 0.2 + 0.1;
     }
@@ -193,7 +178,7 @@ void plan_trajectory(double* x0, double* xDes, double* Obs, int T, struct trajec
     }
     printf("runs to here");
 
-    for(int i=0; i<n_params; i++)
+    for(i=0; i<n_params; i++)
         free(o.p[i]);
 
     free(o.p);
@@ -217,7 +202,7 @@ void plan_trajectory(double* x0, double* xDes, double* Obs, int T, struct trajec
 //     Traj.u = malloc(m*(N-1)*sizeof(double));
 //     // traj[0]: states, traj[1]: controls
 //     plan_trajectory(x0,xDes,Obs,50,&Traj);
-    
+
 //     // free at the end
 //     free(Traj.x);
 //     free(Traj.u);
