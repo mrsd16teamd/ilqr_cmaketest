@@ -1,9 +1,9 @@
 #include <vector>
 #include <iostream>
 
-// extern "C"{
+extern "C"{
   #include "iLQG_mpc.c"
-// }
+}
 
 // #include "iLQR_mpc.c" //TODO integrate generated c-code
 //iLQR_mpc(double x_cur[10], double x_des[6], double obs[2], int T);
@@ -25,6 +25,7 @@ int main()
   struct trajectory Traj;
   Traj.x = (double *) malloc(n*N*sizeof(double));
   Traj.u = (double *) malloc(m*(N-1)*sizeof(double));
+
   // traj[0]: states, traj[1]: controls
   plan_trajectory(x0,xDes,Obs,T,&Traj);
 
