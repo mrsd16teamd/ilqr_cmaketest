@@ -3,7 +3,7 @@
 #include "iLQG_mpc.h"
 
 double* assignPtrVal(double* values, int numVal) {
-    double* temp = malloc(numVal*sizeof(double));
+    double* temp = (double *) malloc(numVal*sizeof(double));
     memcpy(temp, values, numVal*sizeof(double));
 
     return temp;
@@ -51,7 +51,7 @@ void init_params(tOptSet *o, double* xDes, double* Obs)
     // double xDes[6] = {3,0,0,3,0,0};
     // double Obs[2] = {1,0};
 
-    o->p= malloc(n_params*sizeof(double *));
+    o->p= (double **) malloc(n_params*sizeof(double *));
     o->p[0] = assignPtrVal(&G_f,1);
     o->p[1] = assignPtrVal(&G_r,1);;
     o->p[2] = assignPtrVal(&Iz,1);;
@@ -100,7 +100,7 @@ void plan_trajectory(double* x0, double* xDes, double* Obs, int T, struct trajec
     clock_t begin, end;
 
     // double x0[] = {0,0,0, 3,0,0,3,0,0,0};
-    
+
 
     n= sizeof(x0)/sizeof(x0[0]);  // length of state vector
     m= 2; // number of inputs
@@ -139,8 +139,8 @@ void plan_trajectory(double* x0, double* xDes, double* Obs, int T, struct trajec
 
     // aux
     for(i= 0; i<NUMBER_OF_THREADS+1; i++)
-        o.trajectories[i].t= malloc(sizeof(trajEl_t)*(N-1));
-    o.multipliers.t= malloc(sizeof(multipliersEl_t)*N);
+        o.trajectories[i].t= (trajEl_t *) malloc(sizeof(trajEl_t)*(N-1));
+    o.multipliers.t= (multipliersEl_t *) malloc(sizeof(multipliersEl_t)*N);
 
     printf("Set const vars\n");
     if(!init_opt(&o)) {
